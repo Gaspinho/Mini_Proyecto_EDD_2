@@ -11,3 +11,5 @@ Node::Node(Point _pos, int _data){
 Node::Node(){
     data = 0;
 }
+
+// Prueba xd
