@@ -1,8 +1,7 @@
-#include<bits/stdc++.h> //Biblioteca donde se encuentra la función cout
-using namespace std;  //uso del espacio de nombre 
+#include<bits/stdc++.h> 
+using namespace std;
 
-struct Point
-{
+struct Point{
     int x;
     int y;
     Point(int _x,int _y);

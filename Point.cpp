@@ -1,7 +1,8 @@
-#include<bits/stdc++.h> //Biblioteca donde se encuentra la función cout
+#include<bits/stdc++.h>
 #include "Point.h"
 #include "Node.h"
-using namespace std;  //uso del espacio de nombre 
+
+using namespace std;
 
 Point::Point(int _x, int _y){
     x = _x;

@@ -1,7 +1,7 @@
-#include<bits/stdc++.h> //Biblioteca donde se encuentra la función cout
+#include<bits/stdc++.h>
 #include "Point.h"
 #include "Node.h"
-using namespace std;  //uso del espacio de nombre 
+using namespace std;
 
 Node::Node(Point _pos, int _data){
     pos = _pos;
@@ -11,5 +11,3 @@ Node::Node(Point _pos, int _data){
 Node::Node(){
     data = 0;
 }
-
-// Prueba xd

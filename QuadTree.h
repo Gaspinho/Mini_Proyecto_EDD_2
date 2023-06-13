@@ -1,7 +1,7 @@
-#include<bits/stdc++.h> //Biblioteca donde se encuentra la función cout
+#include<bits/stdc++.h> 
 #include "Point.h"
 #include "Node.h"
-using namespace std;  //uso del espacio de nombre 
+using namespace std;
 
 class QuadTree{
     // Hold details of the boundary of this node
@@ -26,7 +26,7 @@ class QuadTree{
     int totalPoints();
     int totalNodes();
     void insert(Point p, int data);
-    list<Node> list();
+    std::list<Node> list();
     int countRegion(Point p, int d);
     int agreggateRegion(Point p, int d);
 };

@@ -1,8 +1,8 @@
-#include<bits/stdc++.h> //Biblioteca donde se encuentra la función cout
+#include<bits/stdc++.h>
 #include "Point.h"
 #include "Node.h"
 #include "QuadTree.h"
-using namespace std;  //uso del espacio de nombre 
+using namespace std;
 
 QuadTree::QuadTree(){
     topLeft = Point(0, 0);
@@ -46,7 +46,7 @@ void QuadTree::insert(Node* node){
 		// Indicates topLeftTree
 		if ((topLeft.y + botRight.y) / 2 >= node->pos.y) {
 			if (topLeftTree == NULL)
-				topLeftTree = new Quad(
+				topLeftTree = new QuadTree(
 					Point(topLeft.x, topLeft.y),
 					Point((topLeft.x + botRight.x) / 2,
 						(topLeft.y + botRight.y) / 2));
@@ -56,7 +56,7 @@ void QuadTree::insert(Node* node){
 		// Indicates botLeftTree
 		else {
 			if (botLeftTree == NULL)
-				botLeftTree = new Quad(
+				botLeftTree = new QuadTree(
 					Point(topLeft.x,
 						(topLeft.y + botRight.y) / 2),
 					Point((topLeft.x + botRight.x) / 2,
@@ -68,7 +68,7 @@ void QuadTree::insert(Node* node){
 		// Indicates topRightTree
 		if ((topLeft.y + botRight.y) / 2 >= node->pos.y) {
 			if (topRightTree == NULL)
-				topRightTree = new Quad(
+				topRightTree = new QuadTree(
 					Point((topLeft.x + botRight.x) / 2,
 						topLeft.y),
 					Point(botRight.x,
@@ -79,7 +79,7 @@ void QuadTree::insert(Node* node){
 		// Indicates botRightTree
 		else {
 			if (botRightTree == NULL)
-				botRightTree = new Quad(
+				botRightTree = new QuadTree(
 					Point((topLeft.x + botRight.x) / 2,
 						(topLeft.y + botRight.y) / 2),
 					Point(botRight.x, botRight.y));
@@ -178,25 +178,25 @@ void QuadTree::insert(Point p, int data){
 
 list<Node> QuadTree::list(){
 
-    list<Node> result;
+    std::list<Node> result;
 
 	if (n != NULL)
 		result.push_back(*n);
 
 	if (topLeftTree != NULL) {
-		list<Node> topLeftList = topLeftTree->list();
+		std::list<Node> topLeftList = topLeftTree->list();
 		result.insert(result.end(), topLeftList.begin(), topLeftList.end());
 	}
 	if (topRightTree != NULL) {
-		list<Node> topRightList = topRightTree->list();
+		std::list<Node> topRightList = topRightTree->list();
 		result.insert(result.end(), topRightList.begin(), topRightList.end());
 	}
 	if (botLeftTree != NULL) {
-		list<Node> botLeftList = botLeftTree->list();
+		std::list<Node> botLeftList = botLeftTree->list();
 		result.insert(result.end(), botLeftList.begin(), botLeftList.end());
 	}
 	if (botRightTree != NULL) {
-		list<Node> botRightList = botRightTree->list();
+		std::list<Node> botRightList = botRightTree->list();
 		result.insert(result.end(), botRightList.begin(), botRightList.end());
 	}
 
@@ -234,13 +234,13 @@ int QuadTree::agreggateRegion(Point p, int d){
 			aggregate = n->data;
 		} else {
 			if (topLeftTree != NULL)
-				aggregate += topLeftTree->aggregateRegion(p, d);
+				aggregate += topLeftTree->agreggateRegion(p, d);
 			if (topRightTree != NULL)
-				aggregate += topRightTree->aggregateRegion(p, d);
+				aggregate += topRightTree->agreggateRegion(p, d);
 			if (botLeftTree != NULL)
-				aggregate += botLeftTree->aggregateRegion(p, d);
+				aggregate += botLeftTree->agreggateRegion(p, d);
 			if (botRightTree != NULL)
-				aggregate += botRightTree->aggregateRegion(p, d);
+				aggregate += botRightTree->agreggateRegion(p, d);
 		}
 	}
 

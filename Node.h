@@ -1,6 +1,6 @@
-#include<bits/stdc++.h> //Biblioteca donde se encuentra la función cout
+#include<bits/stdc++.h>
 #include "Point.h"
-using namespace std;  //uso del espacio de nombre 
+using namespace std;   
 
 struct Node{
     Point pos;
