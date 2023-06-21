@@ -33,6 +33,9 @@ int main() {
     if(p != NULL) cout << p->data << endl;
     else cout << "No existe el punto." << endl;
     // Contenido en la coordenada (1,5): No existe el punto.
+
+    cout << plane2D.totalNodes() << endl;
+    plane2D.printQuadTree();
     
     return 0;
 }
