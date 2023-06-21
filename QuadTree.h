@@ -1,6 +1,8 @@
 #include<bits/stdc++.h> 
 #include "Point.h"
 #include "Node.h"
+#ifndef QUADTREE
+#define QUADTREE
 using namespace std;
 
 class QuadTree{
@@ -29,4 +31,8 @@ class QuadTree{
     std::list<Node> list();
     int countRegion(Point p, int d);
     int agreggateRegion(Point p, int d);
+    void _printQuadTree(QuadTree* p, int d);
+    void printQuadTree();
 };
+
+#endif

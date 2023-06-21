@@ -5,8 +5,8 @@
 using namespace std;
 
 QuadTree::QuadTree(){
-    topLeft = Point(0, 0);
-	botRight = Point(0, 0);
+    topLeft = Point(-180, 90);
+	botRight = Point(90, -180);
 	n = NULL;
 	topLeftTree = NULL;
 	topRightTree = NULL;
@@ -26,7 +26,7 @@ QuadTree::QuadTree(Point topL, Point botR){
 
 void QuadTree::insert(Node* node){
 
-    if (node == NULL)
+	if (node == NULL) 
 		return;
 
 	// Current quad cannot contain it
@@ -37,59 +37,65 @@ void QuadTree::insert(Node* node){
 	// We cannot subdivide this quad further
 	if (abs(topLeft.x - botRight.x) <= 1
 		&& abs(topLeft.y - botRight.y) <= 1) {
-		if (n == NULL)
+	  if (n == NULL)
 			n = node;
-		return;
+
+	    return;
 	}
 
-	if ((topLeft.x + botRight.x) / 2 >= node->pos.x) {
+	if ((topLeft.x + botRight.x) / 2 > node->pos.x) {
 		// Indicates topLeftTree
-		if ((topLeft.y + botRight.y) / 2 >= node->pos.y) {
-			if (topLeftTree == NULL)
+		if ((topLeft.y + botRight.y) / 2 > node->pos.y) {
+		  if (topLeftTree == NULL) 
 				topLeftTree = new QuadTree(
 					Point(topLeft.x, topLeft.y),
 					Point((topLeft.x + botRight.x) / 2,
 						(topLeft.y + botRight.y) / 2));
-			topLeftTree->insert(node);
+
+		  topLeftTree->insert(node);
 		}
 
 		// Indicates botLeftTree
 		else {
-			if (botLeftTree == NULL)
+		  if (botLeftTree == NULL) 
 				botLeftTree = new QuadTree(
 					Point(topLeft.x,
 						(topLeft.y + botRight.y) / 2),
 					Point((topLeft.x + botRight.x) / 2,
-						botRight.y));
-			botLeftTree->insert(node);
+					      botRight.y));
+
+		  botLeftTree->insert(node);
 		}
 	}
 	else {
 		// Indicates topRightTree
-		if ((topLeft.y + botRight.y) / 2 >= node->pos.y) {
-			if (topRightTree == NULL)
+		if ((topLeft.y + botRight.y) / 2 > node->pos.y) {
+		  if (topRightTree == NULL) 
 				topRightTree = new QuadTree(
 					Point((topLeft.x + botRight.x) / 2,
 						topLeft.y),
 					Point(botRight.x,
 						(topLeft.y + botRight.y) / 2));
-			topRightTree->insert(node);
+
+		  topRightTree->insert(node);
 		}
 
 		// Indicates botRightTree
 		else {
-			if (botRightTree == NULL)
+		  if (botRightTree == NULL)
 				botRightTree = new QuadTree(
 					Point((topLeft.x + botRight.x) / 2,
 						(topLeft.y + botRight.y) / 2),
 					Point(botRight.x, botRight.y));
-			botRightTree->insert(node);
+		  
+		  botRightTree->insert(node);
 		}
 	}
 }
 
 Node* QuadTree::search(Point p){
-    // Current quad cannot contain it
+    
+	// Current quad cannot contain it
 	if (!inBoundary(p))
 		return NULL;
 
@@ -98,9 +104,9 @@ Node* QuadTree::search(Point p){
 	if (n != NULL)
 		return n;
 
-	if ((topLeft.x + botRight.x) / 2 >= p.x) {
+	if ((topLeft.x + botRight.x) / 2 > p.x) {
 		// Indicates topLeftTree
-		if ((topLeft.y + botRight.y) / 2 >= p.y) {
+		if ((topLeft.y + botRight.y) / 2 > p.y) {
 			if (topLeftTree == NULL)
 				return NULL;
 			return topLeftTree->search(p);
@@ -115,7 +121,7 @@ Node* QuadTree::search(Point p){
 	}
 	else {
 		// Indicates topRightTree
-		if ((topLeft.y + botRight.y) / 2 >= p.y) {
+		if ((topLeft.y + botRight.y) / 2 > p.y) {
 			if (topRightTree == NULL)
 				return NULL;
 			return topRightTree->search(p);
@@ -128,6 +134,7 @@ Node* QuadTree::search(Point p){
 			return botRightTree->search(p);
 		}
 	}
+	
 }
 
 bool QuadTree::inBoundary(Point p){
@@ -186,18 +193,22 @@ list<Node> QuadTree::list(){
 	if (topLeftTree != NULL) {
 		std::list<Node> topLeftList = topLeftTree->list();
 		result.insert(result.end(), topLeftList.begin(), topLeftList.end());
+		result.clear();
 	}
 	if (topRightTree != NULL) {
 		std::list<Node> topRightList = topRightTree->list();
 		result.insert(result.end(), topRightList.begin(), topRightList.end());
+		result.clear();
 	}
 	if (botLeftTree != NULL) {
 		std::list<Node> botLeftList = botLeftTree->list();
 		result.insert(result.end(), botLeftList.begin(), botLeftList.end());
+		result.clear();
 	}
 	if (botRightTree != NULL) {
 		std::list<Node> botRightList = botRightTree->list();
 		result.insert(result.end(), botRightList.begin(), botRightList.end());
+		result.clear();
 	}
 
 	return result;
@@ -247,7 +258,30 @@ int QuadTree::agreggateRegion(Point p, int d){
 	return aggregate;
 }
 
+void QuadTree::_printQuadTree(QuadTree* t, int indent)
+{
+  for(int i=0; i < indent; i++)
+    std::cout << "--";
 
+  if(t != NULL && t->n != NULL)
+    std::cout << " " << t->n->data << std::endl;
+  else if(t == NULL)
+    std::cout << " NULL" << std::endl;
+  else {
+    std::cout << " X " << std::endl;
+  
+    _printQuadTree(t->topLeftTree, indent+1);
+    _printQuadTree(t->topRightTree, indent+1);
+    _printQuadTree(t->botLeftTree, indent+1);
+    _printQuadTree(t->botRightTree, indent+1);
+  }
+}
 
-
+void QuadTree::printQuadTree()
+{
+  _printQuadTree(this->topLeftTree, 1);
+  _printQuadTree(this->topRightTree, 1);
+  _printQuadTree(this->botLeftTree, 1);
+  _printQuadTree(this->botRightTree, 1);
+}
 
