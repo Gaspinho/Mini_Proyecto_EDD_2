@@ -1,5 +1,7 @@
 #include<bits/stdc++.h>
 #include "Point.h"
+#ifndef NODE
+#define NODE
 using namespace std;   
 
 struct Node{
@@ -8,3 +10,5 @@ struct Node{
     Node(Point _pos, int _data);
     Node();
 };
+
+#endif
