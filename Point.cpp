@@ -1,7 +1,6 @@
 #include<bits/stdc++.h>
 #include "Point.h"
 #include "Node.h"
-
 using namespace std;
 
 Point::Point(int _x, int _y){

@@ -1,4 +1,6 @@
 #include<bits/stdc++.h> 
+#ifndef POINT
+#define POINT
 using namespace std;
 
 struct Point{
@@ -9,3 +11,4 @@ struct Point{
 };
 
 
+#endif
