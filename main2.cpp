@@ -69,16 +69,40 @@ vector<Data> readDataBase(int numLines) {
 }
 
 int main() {
-    int numLines = 10; // Número de líneas a leer
+    vector<int> numCities = {100000, 200000, 400000, 800000, 1600000, 3173648}; // Números de ciudades a probar
+    int numExperiments = 20; // Número de experimentos por cada número de ciudades
 
-    vector<Data> data = readDataBase(numLines);
+    for (const auto& numLines : numCities) {
+        double totalTime = 0;
 
-    for (const auto& node : data) {
-        cout << "Ciudad: " << node.city << endl;
-        cout << "Poblacion: " << node.population << endl;
-        cout << "Latitud: " << node.latitude << endl;
-        cout << "Longitud: " << node.longitude << endl;
-        cout << endl;
+        for (int experiment = 0; experiment < numExperiments; experiment++) {
+            vector<Data> data = readDataBase(numLines);
+
+            // Crear el quadtree
+            QuadTree quadtree(Point(0, 0), Point(10000000, 10000000)); // Ajusta los límites superiores derecho según tus necesidades
+
+            // Iniciar el conteo del tiempo
+            auto startTime = chrono::high_resolution_clock::now();
+
+            // Insertar las ciudades en el quadtree
+            for (const auto& node : data) {
+                quadtree.insert(Point(node.latitude, node.longitude), node.population);
+            }
+
+            // Finalizar el conteo del tiempo
+            auto endTime = chrono::high_resolution_clock::now();
+
+            // Calcular la duración de la inserción
+            auto duration = chrono::duration_cast<chrono::milliseconds>(endTime - startTime).count();
+
+            totalTime += duration;
+        }
+
+        // Calcular el tiempo promedio
+        double averageTime = totalTime / numExperiments;
+
+        // Imprimir el resultado
+        cout << "Tiempo promedio de inserción para " << numLines << " ciudades: " << averageTime << " ms" << endl;
     }
 
     return 0;
