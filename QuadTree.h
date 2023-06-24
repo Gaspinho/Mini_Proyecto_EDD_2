@@ -27,8 +27,8 @@ class QuadTree{
     bool inBoundary(Point);
     int totalPoints();
     int totalNodes();
-    void insert(Point p, int data);
     std::list<Node> list();
+    void insert(Point p, int data);
     int countRegion(Point p, int d);
     int agreggateRegion(Point p, int d);
     void _printQuadTree(QuadTree* p, int d);

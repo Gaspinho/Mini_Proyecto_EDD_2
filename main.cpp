@@ -36,6 +36,10 @@ int main() {
 
     cout << plane2D.totalNodes() << endl;
     plane2D.printQuadTree();
+
+    cout << plane2D.countRegion(Point(4,2), 2) << endl;
+    cout << plane2D.agreggateRegion(Point(4,2), 2) << endl;
+
     
     return 0;
 }

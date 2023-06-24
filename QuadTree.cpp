@@ -1,18 +1,9 @@
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 #include "Point.h"
 #include "Node.h"
 #include "QuadTree.h"
 using namespace std;
 
-QuadTree::QuadTree(){
-    topLeft = Point(-180, 90);
-	botRight = Point(90, -180);
-	n = NULL;
-	topLeftTree = NULL;
-	topRightTree = NULL;
-	botLeftTree = NULL;
-	botRightTree = NULL;
-}
 
 QuadTree::QuadTree(Point topL, Point botR){
     n = NULL;
@@ -137,45 +128,56 @@ Node* QuadTree::search(Point p){
 	
 }
 
-bool QuadTree::inBoundary(Point p){
+bool QuadTree::inBoundary(Point p) {
     return (p.x >= topLeft.x && p.x <= botRight.x && p.y >= topLeft.y && p.y <= botRight.y);
 }
 
-int QuadTree::totalPoints(){
+int QuadTree::totalPoints() {
+    int count = 0;
 
-    if (n != NULL)
-		return 1;
+    if (n != NULL) {
+        count++;
+    }
 
-	int count = 0;
+    if (topLeftTree != NULL) {
+        count += topLeftTree->totalPoints();
+    }
 
-	if (topLeftTree != NULL)
-		count += topLeftTree->totalPoints();
-	if (topRightTree != NULL)
-		count += topRightTree->totalPoints();
-	if (botLeftTree != NULL)
-		count += botLeftTree->totalPoints();
-	if (botRightTree != NULL)
-		count += botRightTree->totalPoints();
+    if (topRightTree != NULL) {
+        count += topRightTree->totalPoints();
+    }
 
-	return count;
-    
+    if (botLeftTree != NULL) {
+        count += botLeftTree->totalPoints();
+    }
+
+    if (botRightTree != NULL) {
+        count += botRightTree->totalPoints();
+    }
+
+    return count;
 }
 
-int QuadTree::totalNodes(){
+int QuadTree::totalNodes() {
+    int count = 1;
 
-    int count = 1; // Count the current node
+    if (topLeftTree != NULL) {
+        count += topLeftTree->totalNodes();
+    }
 
-	if (topLeftTree != NULL)
-		count += topLeftTree->totalNodes();
-	if (topRightTree != NULL)
-		count += topRightTree->totalNodes();
-	if (botLeftTree != NULL)
-		count += botLeftTree->totalNodes();
-	if (botRightTree != NULL)
-		count += botRightTree->totalNodes();
+    if (topRightTree != NULL) {
+        count += topRightTree->totalNodes();
+    }
 
-	return count;
+    if (botLeftTree != NULL) {
+        count += botLeftTree->totalNodes();
+    }
 
+    if (botRightTree != NULL) {
+        count += botRightTree->totalNodes();
+    }
+
+    return count;
 }
 
 void QuadTree::insert(Point p, int data){
@@ -183,7 +185,7 @@ void QuadTree::insert(Point p, int data){
 	insert(newNode);
 }
 
-list<Node> QuadTree::list(){
+std::list<Node> QuadTree::list(){
 
     std::list<Node> result;
 
@@ -214,49 +216,63 @@ list<Node> QuadTree::list(){
 	return result;
 }
 
-int QuadTree::countRegion(Point p, int d){
 
+int QuadTree::countRegion(Point p, int d) {
     int count = 0;
 
-	if (inBoundary(p)) {
-		if (n != NULL) {
-			count = 1;
-		} else {
-			if (topLeftTree != NULL)
-				count += topLeftTree->countRegion(p, d);
-			if (topRightTree != NULL)
-				count += topRightTree->countRegion(p, d);
-			if (botLeftTree != NULL)
-				count += botLeftTree->countRegion(p, d);
-			if (botRightTree != NULL)
-				count += botRightTree->countRegion(p, d);
-		}
-	}
+    if (n != NULL) {
+        if (abs(p.x - n->pos.x) <= d && abs(p.y - n->pos.y) <= d) {
+            count++;
+        }
+    }
 
-	return count;
+    if (topLeftTree != NULL) {
+        count += topLeftTree->countRegion(p, d);
+    }
 
+    if (topRightTree != NULL) {
+        count += topRightTree->countRegion(p, d);
+    }
+
+    if (botLeftTree != NULL) {
+        count += botLeftTree->countRegion(p, d);
+    }
+
+    if (botRightTree != NULL) {
+        count += botRightTree->countRegion(p, d);
+    }
+
+    return count;
 }
 
-int QuadTree::agreggateRegion(Point p, int d){
+int QuadTree::agreggateRegion(Point p, int d) {
     int aggregate = 0;
 
-	if (inBoundary(p)) {
-		if (n != NULL) {
-			aggregate = n->data;
-		} else {
-			if (topLeftTree != NULL)
-				aggregate += topLeftTree->agreggateRegion(p, d);
-			if (topRightTree != NULL)
-				aggregate += topRightTree->agreggateRegion(p, d);
-			if (botLeftTree != NULL)
-				aggregate += botLeftTree->agreggateRegion(p, d);
-			if (botRightTree != NULL)
-				aggregate += botRightTree->agreggateRegion(p, d);
-		}
-	}
+    if (n != NULL) {
+        if (abs(p.x - n->pos.x) <= d && abs(p.y - n->pos.y) <= d) {
+            aggregate += n->data;
+        }
+    }
 
-	return aggregate;
+    if (topLeftTree != NULL) {
+        aggregate += topLeftTree->agreggateRegion(p, d);
+    }
+
+    if (topRightTree != NULL) {
+        aggregate += topRightTree->agreggateRegion(p, d);
+    }
+
+    if (botLeftTree != NULL) {
+        aggregate += botLeftTree->agreggateRegion(p, d);
+    }
+
+    if (botRightTree != NULL) {
+        aggregate += botRightTree->agreggateRegion(p, d);
+    }
+
+    return aggregate;
 }
+
 
 void QuadTree::_printQuadTree(QuadTree* t, int indent)
 {
