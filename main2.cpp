@@ -1,7 +1,4 @@
-#include <iostream>
-#include <fstream>
-#include <sstream>
-#include <string>
+#include <bits/stdc++.h>
 #include "Point.h"
 #include "Node.h"
 #include "QuadTree.h"
@@ -29,30 +26,30 @@ vector<Data> readDataBase(int numLines) {
     for (int i = 0; i < numLines; i++) {
         getline(myfile, line);
 
-        istringstream aux(line); // Convierte el string obtenido en un stream
+        istringstream aux(line);
 
         string field;
         int currentField = 0;
 
-        Data dataAux; // Creamos un data para agregar al vector
+        Data dataAux;
 
-        while (getline(aux, field, ';')) { // Lee el string usando ";" como delimitador
-            int commaPos = field.find(','); // La base de datos trae los decimales con comas, así que las convertimos en puntos
+        while (getline(aux, field, ';')) { // La database usa ";" en vez de "," para separar los datos.
+            int commaPos = field.find(',');
             if (commaPos != string::npos) {
                 field[commaPos] = '.';
             }
 
             switch (currentField) {
-                case 1: // City
+                case 1:
                     dataAux.city = field;
                     break;
-                case 4: // Population
+                case 4:
                     dataAux.population = stoi(field);
                     break;
-                case 5: // Latitude
+                case 5:
                     dataAux.latitude = stod(field);
                     break;
-                case 6: // Longitude
+                case 6:
                     dataAux.longitude = stod(field);
                     break;
                 default:
@@ -69,8 +66,8 @@ vector<Data> readDataBase(int numLines) {
 }
 
 int main() {
-    vector<int> numCities = {100000, 200000, 400000, 800000, 1600000, 3173648}; // Números de ciudades a probar
-    int numExperiments = 20; // Número de experimentos por cada número de ciudades
+    vector<int> numCities = {100000, 200000, 400000, 800000, 1600000, 3173648};
+    int numExperiments = 20;
 
     for (const auto& numLines : numCities) {
         double totalTime = 0;
@@ -78,30 +75,25 @@ int main() {
         for (int experiment = 0; experiment < numExperiments; experiment++) {
             vector<Data> data = readDataBase(numLines);
 
-            // Crear el quadtree
-            QuadTree quadtree(Point(0, 0), Point(10000000, 10000000)); // Ajusta los límites superiores derecho según tus necesidades
+            
+            QuadTree quadtree(Point(0, 0), Point(10000000, 10000000));
 
-            // Iniciar el conteo del tiempo
             auto startTime = chrono::high_resolution_clock::now();
 
-            // Insertar las ciudades en el quadtree
+            // Inserción de las ciudades.
             for (const auto& node : data) {
                 quadtree.insert(Point(node.latitude, node.longitude), node.population);
             }
 
-            // Finalizar el conteo del tiempo
             auto endTime = chrono::high_resolution_clock::now();
 
-            // Calcular la duración de la inserción
             auto duration = chrono::duration_cast<chrono::milliseconds>(endTime - startTime).count();
 
             totalTime += duration;
         }
 
-        // Calcular el tiempo promedio
         double averageTime = totalTime / numExperiments;
 
-        // Imprimir el resultado
         cout << "Tiempo promedio de inserción para " << numLines << " ciudades: " << averageTime << " ms" << endl;
     }
 
