@@ -245,7 +245,7 @@ int QuadTree::countRegion(Point p, int d) {
     return count;
 }
 
-int QuadTree::agreggateRegion(Point p, int d) {
+int QuadTree::aggregateRegion(Point p, int d) {
     int aggregate = 0;
 
     if (n != NULL) {
@@ -255,19 +255,19 @@ int QuadTree::agreggateRegion(Point p, int d) {
     }
 
     if (topLeftTree != NULL) {
-        aggregate += topLeftTree->agreggateRegion(p, d);
+        aggregate += topLeftTree->aggregateRegion(p, d);
     }
 
     if (topRightTree != NULL) {
-        aggregate += topRightTree->agreggateRegion(p, d);
+        aggregate += topRightTree->aggregateRegion(p, d);
     }
 
     if (botLeftTree != NULL) {
-        aggregate += botLeftTree->agreggateRegion(p, d);
+        aggregate += botLeftTree->aggregateRegion(p, d);
     }
 
     if (botRightTree != NULL) {
-        aggregate += botRightTree->agreggateRegion(p, d);
+        aggregate += botRightTree->aggregateRegion(p, d);
     }
 
     return aggregate;

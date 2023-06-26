@@ -30,7 +30,7 @@ class QuadTree{
     std::list<Node> list();
     void insert(Point p, int data);
     int countRegion(Point p, int d);
-    int agreggateRegion(Point p, int d);
+    int aggregateRegion(Point p, int d);
     void _printQuadTree(QuadTree* p, int d);
     void printQuadTree();
 };
