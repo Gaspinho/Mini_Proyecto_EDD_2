@@ -69,7 +69,7 @@ vector<Data> readDataBase(int numLines) {
 }
 
 int main() {
-    vector<int> numCities = {100000, 200000, 400000, 800000, 1600000, 3173647}; // Números de ciudades a probar
+    vector<int> numCities = {100000, 200000, 400000, 800000, 1600000, 3173648}; // Números de ciudades a probar
     int numExperiments = 20; // Número de experimentos por cada número de ciudades
 
     for (const auto& numLines : numCities) {
