@@ -75,7 +75,7 @@ vector<Data> readDataBase(int numLines) {
 
 
 int main() {
-    int numCities = 3173647; // Número de ciudades constante
+    int numCities = 3173648; // Número de ciudades constante
     int numExperiments = 20; // Número de experimentos por cada distancia
     vector<int> distances = {100, 500, 1000, 10000, 100000}; // Distancias a probar
 
